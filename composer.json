@@ -1,0 +1,28 @@
+{
+    "name": "krak/array",
+    "description": "A collection of missing php array functions",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://gitlab.bighead.net/bighead/krak-array",
+    "keywords": [
+        "misc",
+        "array",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "RJ Garcia",
+            "email": "rj@bighead.net"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "src/array.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Krak\\Tests\\": "tests"
+        }
+    }
+}
