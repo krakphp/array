@@ -52,3 +52,35 @@ function array_index_column($iterable, $key)
 
     return $map;
 }
+
+/**
+ * Simple function for finding the difference of two arrays based off of a
+ * comparison function. It supposedly does the same as array_udiff, however,
+ * array_udiff does special optimizations create incorrect results if you're comparison
+ * function doesn't return 0, 1, or -1. array_udiff sorts the values to be more efficient
+ * and make less comparisons, but it doesn't work on values that can't really be sorted
+ * @param array $a
+ * @param array $b
+ * @param callable $cmp returns 0 on match, anything else on different
+ */
+function array_udiff_stable($a, $b, $cmp)
+{
+    $ret = [];
+
+    foreach ($a as $a_val) {
+        $ok = true;
+
+        foreach ($b as $b_val) {
+            if ($cmp($a_val, $b_val) == 0) {
+                $ok = false;
+                break; /* b was in a, so it's excluded in the difference */
+            }
+        }
+
+        if ($ok) {
+            $ret[] = $a_val;
+        }
+    }
+
+    return $ret;
+}

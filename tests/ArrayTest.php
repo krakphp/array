@@ -70,4 +70,14 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
             array_index_column($this->arrayIndexColumnGen(), 'id')
         );
     }
+
+    public function testArrayUdiffStable()
+    {
+        $expected = [1,2];
+
+        $this->assertEquals(
+            $expected,
+            array_udiff_stable([1,2,3,4], [3,4], function($a, $b){return $a != $b;})
+        );
+    }
 }
