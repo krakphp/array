@@ -3,7 +3,7 @@
     "description": "A collection of missing php array functions",
     "type": "library",
     "license": "MIT",
-    "homepage": "http://gitlab.bighead.net/bighead/krak-array",
+    "homepage": "http://gitlab.bighead.net/krak/array",
     "keywords": [
         "misc",
         "array",
