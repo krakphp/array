@@ -1,12 +1,14 @@
 <?php
 
+namespace Krak\Arr;
+
 /**
  * recursivley expands a flattened array into a heirarchy of arrays
  * based on a key separator
  * @param mixed $iterable
  * @return array returns the same array
  */
-function array_expand($iterable, $separator = '.')
+function expand($iterable, $separator = '.')
 {
     $array = [];
     $keys_to_recurse = [];
@@ -37,27 +39,13 @@ function array_expand($iterable, $separator = '.')
 }
 
 /**
- * @see array_index_by
- * @deprecated
- */
-function array_index_column($iterable, $key)
-{
-    $map = [];
-    foreach ($iterable as $row) {
-        $map[$row[$key]] = $row;
-    }
-
-    return $map;
-}
-
-/**
  * Creates a new indexed array same as the old array except the index/key of
  * the new array elements are the value of array column at $key
  * @param mixed $iterable the input array
  * @param string $key the column name to get the index
  * @return array
  */
-function array_index_by($iterable, $key)
+function index_by($iterable, $key)
 {
     $map = [];
     foreach ($iterable as $row) {
@@ -77,7 +65,7 @@ function array_index_by($iterable, $key)
  * @param array $b
  * @param callable $cmp returns 0 on match, anything else on different
  */
-function array_udiff_stable($a, $b, $cmp)
+function udiff_stable($a, $b, $cmp)
 {
     $ret = [];
 
@@ -106,12 +94,12 @@ function array_udiff_stable($a, $b, $cmp)
  * @param mixed $else
  * @return mixed
  */
- function array_get(array $data, $key, $else = null)
- {
-     if (array_key_exists($key, $data)) {
-         return $data[$key];
-     }
-     else {
-         return $else;
-     }
- }
+function get(array $data, $key, $else = null)
+{
+    if (array_key_exists($key, $data)) {
+        return $data[$key];
+    }
+    else {
+        return $else;
+    }
+}

@@ -1,6 +1,8 @@
 <?php
 
-namespace Krak\Tests;
+namespace Krak\Arr\Tests;
+
+use Krak\Arr;
 
 class ArrayTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,7 +55,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
             'd' => 7,
         ];
 
-        $this->assertEquals($expected, array_expand($this->arrayExpandGen()));
+        $this->assertEquals($expected, arr\expand($this->arrayExpandGen()));
     }
 
     public function testArrayIndexColumn()
@@ -67,7 +69,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expected,
-            array_index_column($this->arrayIndexColumnGen(), 'id')
+            arr\index_by($this->arrayIndexColumnGen(), 'id')
         );
     }
 
@@ -77,7 +79,16 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expected,
-            array_udiff_stable([1,2,3,4], [3,4], function($a, $b){return $a != $b;})
+            arr\udiff_stable([1,2,3,4], [3,4], function($a, $b){return $a != $b;})
         );
+    }
+
+    public function testGetElse()
+    {
+        $this->assertTrue(arr\get(['a' => false], 'b', true));
+    }
+    public function testGet()
+    {
+        $this->assertFalse(arr\get(['a' => false], 'a', true));
     }
 }

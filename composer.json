@@ -20,16 +20,17 @@
     },
     "require-dev": {
         "php": ">=5.5",
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "^4.0"
     },
     "autoload": {
         "files": [
-            "src/array.php"
+            "src/array.php",
+            "src/array_global.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Krak\\Tests\\": "tests"
+            "Krak\\Arr\\Tests\\": "tests"
         }
     }
 }
