@@ -37,13 +37,27 @@ function array_expand($iterable, $separator = '.')
 }
 
 /**
+ * @see array_index_by
+ * @deprecated
+ */
+function array_index_column($iterable, $key)
+{
+    $map = [];
+    foreach ($iterable as $row) {
+        $map[$row[$key]] = $row;
+    }
+
+    return $map;
+}
+
+/**
  * Creates a new indexed array same as the old array except the index/key of
  * the new array elements are the value of array column at $key
  * @param mixed $iterable the input array
  * @param string $key the column name to get the index
  * @return array
  */
-function array_index_column($iterable, $key)
+function array_index_by($iterable, $key)
 {
     $map = [];
     foreach ($iterable as $row) {
@@ -84,3 +98,20 @@ function array_udiff_stable($a, $b, $cmp)
 
     return $ret;
 }
+
+/**
+ * Get an element from the array or return $else
+ * @param array $data
+ * @param string $key
+ * @param mixed $else
+ * @return mixed
+ */
+ function array_get(array $data, $key, $else = null)
+ {
+     if (array_key_exists($key, $data)) {
+         return $data[$key];
+     }
+     else {
+         return $else;
+     }
+ }
