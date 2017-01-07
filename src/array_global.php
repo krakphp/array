@@ -1,5 +1,7 @@
 <?php
 
+use Krak\Arr;
+
 /**
  * recursivley expands a flattened array into a heirarchy of arrays
  * based on a key separator
@@ -8,16 +10,7 @@
  */
 function array_expand($iterable, $separator = '.')
 {
-    return krak\arr\expand($iterable, $separator);
-}
-
-/**
- * @see array_index_by
- * @deprecated
- */
-function array_index_column($iterable, $key)
-{
-    return array_index_by($iterable, $key);
+    return Arr\expand($iterable, $separator);
 }
 
 /**
@@ -29,7 +22,7 @@ function array_index_column($iterable, $key)
  */
 function array_index_by($iterable, $key)
 {
-    return krak\arr\index_by($iterable, $key);
+    return Arr\index_by($iterable, $key);
 }
 
 /**
@@ -44,7 +37,7 @@ function array_index_by($iterable, $key)
  */
 function array_udiff_stable($a, $b, $cmp)
 {
-    return krak\arr\udiff_stable($a, $b, $cmp);
+    return Arr\udiff_stable($a, $b, $cmp);
 }
 
 /**
@@ -54,7 +47,19 @@ function array_udiff_stable($a, $b, $cmp)
  * @param mixed $else
  * @return mixed
  */
- function array_get(array $data, $key, $else = null)
- {
-    return krak\arr\get($data, $key, $else);
- }
+function array_get(array $data, $key, $else = null, $sep = '.')
+{
+    return Arr\get($data, $key, $else, $sep);
+}
+
+function array_has(array $data, $key, $sep = '.') {
+    return Arr\has($data, $key, $sep);
+}
+
+function array_set(array &$data, $key, $value, $sep = '.') {
+    return Arr\set($data, $key, $sep);
+}
+
+function array_del(array &$data, $key, $sep = '.') {
+    return Arr\del($data, $key, $sep);
+}

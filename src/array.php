@@ -88,18 +88,84 @@ function udiff_stable($a, $b, $cmp)
 }
 
 /**
- * Get an element from the array or return $else
+ * Get an element from the array or return $else. Nested access notation is also
+ * supported via the sep parameter.
+ *
  * @param array $data
  * @param string $key
  * @param mixed $else
+ * @param string $sep Pass an empty string or null to disable nested separation
  * @return mixed
  */
-function get(array $data, $key, $else = null)
-{
-    if (array_key_exists($key, $data)) {
-        return $data[$key];
+function get(array $data, $key, $else = null, $sep = '.') {
+    return _get_parent($data, $key, $sep, function(&$data, $key) use ($else) {
+        return array_key_exists($key, $data)
+            ? $data[$key]
+            : $else;
+    });
+}
+
+function has(array $data, $key, $sep = '.') {
+    return _get_parent($data, $key, $sep, function(&$data, $key) {
+        return array_key_exists($data, $key);
+    });
+}
+
+
+function set(array &$data, $key, $value, $sep = '.') {
+    if (!$sep || strpos($key, $sep) === false) {
+        $data[$key] = $value;
+        return;
     }
-    else {
-        return $else;
+
+    $parts = explode($sep, $key);
+    while (count($parts) > 1) {
+        if (is_array($data) && array_key_exists($parts[0], $data)) {
+            $data = &$data[$parts[0]];
+        } else if (is_array($data)) {
+            $data[$parts[0]] = [];
+            $data = &$data[$parts[0]];
+        } else {
+            throw new \LogicException('Cannot set nested value because key is not an array');
+        }
+
+        array_shift($parts);
     }
+
+    if (!is_array($data)) {
+        throw new \LogicException('Cannot set nested value because key is not an array');
+    }
+
+    $data[$parts[0]] = $value;
+}
+
+function del(array &$data, $key, $sep = '.') {
+    return _get_parent($data, $key, $sep, function(&$data, $key) {
+        unset($data[$key]);
+    });
+}
+
+/** returns the parent value for nested keys */
+function _get_parent(array &$orig_data, $key, $sep, $update) {
+    if (!$sep || strpos($key, $sep) === false) {
+        return $update($orig_data, $key);
+    }
+
+    $data = &$orig_data;
+    $orig_parts = explode($sep, $key);
+    $parts = array_slice($orig_parts, 0, -1);
+    while ($parts) {
+        if (is_array($data) && array_key_exists($parts[0], $data)) {
+            $data = &$data[$parts[0]];
+        } else {
+            return $update($orig_data, $key);
+        }
+        array_shift($parts);
+    }
+
+    if (!is_array($data)) {
+        return $update($orig_data, $key);
+    }
+
+    return $update($data, end($orig_parts));
 }

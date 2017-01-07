@@ -91,4 +91,44 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse(arr\get(['a' => false], 'a', true));
     }
+    public function testGetNested() {
+        $this->assertTrue(arr\get(['a' => ['b' => 1]], 'a.b') === 1);
+    }
+    public function testSet() {
+        $data = [];
+        Arr\set($data, 'key', 'value');
+        $this->assertTrue($data['key'] === 'value');
+    }
+    public function testSetNested() {
+        $data = [];
+        Arr\set($data, 'a.b', 'value');
+        $this->assertTrue($data['a']['b'] === 'value');
+    }
+    public function testSetNestedException() {
+        $data = ['a' => 1];
+        try {
+            Arr\set($data, 'a.b', 'value');
+            $this->assertTrue(false);
+        } catch (\LogicException $e) {
+            $this->assertTrue(true);
+        }
+    }
+    public function testDel() {
+        $data = ['a' => ['b' => 1, 'c' => 2]];
+        Arr\del($data, 'a.b');
+        $this->assertTrue($data['a'] == ['c' => 2]);
+    }
+
+    public function testBag() {
+        $bag = new Arr\Bag();
+
+        $bag->set('a.b', 1);
+        $bag->set('a.c', 2);
+        $bag->del('a.c');
+
+        $valid = $bag->get('a.c', 5) === 5 &&
+            $bag->get('a.b', 5) === 1 &&
+            $bag['a']['b'] == 1;
+        $this->assertTrue($valid);
+    }
 }
