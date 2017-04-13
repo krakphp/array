@@ -107,7 +107,7 @@ function get(array $data, $key, $else = null, $sep = '.') {
 
 function has(array $data, $key, $sep = '.') {
     return _get_parent($data, $key, $sep, function(&$data, $key) {
-        return array_key_exists($data, $key);
+        return array_key_exists($key, $data);
     });
 }
 
