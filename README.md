@@ -58,7 +58,9 @@ The following are defined in the namespace `Krak\Arr`:
     array index_by(iterable $iterable, string $key)
     array udiff_stable(iterable $a, iterable $b, callable $cmp)
     mixed get(array $data, string $key, mixed $else = null)
+    mixed getIn(array $data, array $key, mixed $else = null);
     bool has(array $data, string $key, string $sep = '.')
+    bool hasIn(array $data, array $key)
     void set(array &$data, string $key, mixed $value, string $sep = '.')
     void del(array &$data, string $key, string $sep = '.')
 

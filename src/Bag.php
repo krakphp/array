@@ -14,12 +14,19 @@ class Bag implements \ArrayAccess
         return get($this->data, $key, $else, $sep);
     }
 
+    public function getIn(array $key, $else = null) {
+        return getIn($this->data, $key, $else);
+    }
+
     public function set($key, $value, $sep = '.') {
         return set($this->data, $key, $value, $sep);
     }
 
     public function has($key, $sep = '.') {
         return has($this->data, $key, $sep);
+    }
+    public function hasIn(array $key) {
+        return hasIn($this->data, $key);
     }
 
     public function del($key, $sep = '.') {

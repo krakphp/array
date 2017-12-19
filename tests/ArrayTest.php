@@ -94,6 +94,18 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     public function testGetNested() {
         $this->assertTrue(arr\get(['a' => ['b' => 1]], 'a.b') === 1);
     }
+    public function testGetIn() {
+        $this->assertEquals(1, Arr\getIn(['a' => ['b' => 1]], ['a', 'b']));
+    }
+    public function testGetInElse() {
+        $this->assertEquals(2, Arr\getIn(['a' => ['b' => 1]], ['a', 'b', 'c'], 2));
+    }
+    public function testHasIn() {
+        $this->assertTrue(Arr\hasIn(['a' => 1], ['a']));
+    }
+    public function testHasInNot() {
+        $this->assertFalse(Arr\hasIn(['a' => 1], ['a', 'b']));
+    }
     public function testSet() {
         $data = [];
         Arr\set($data, 'key', 'value');
@@ -128,6 +140,8 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
         $valid = $bag->get('a.c', 5) === 5 &&
             $bag->get('a.b', 5) === 1 &&
+            $bag->getIn(['a', 'b']) === 1 &&
+            $bag->hasIn(['a', 'b']) === true &&
             $bag['a']['b'] == 1;
         $this->assertTrue($valid);
     }

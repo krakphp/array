@@ -105,10 +105,34 @@ function get(array $data, $key, $else = null, $sep = '.') {
     });
 }
 
+function getIn(array $data, array $key, $else = null) {
+    foreach ($key as $part) {
+        if (!is_array($data) || !array_key_exists($part, $data)) {
+            return $else;
+        }
+
+        $data = $data[$part];
+    }
+
+    return $data;
+}
+
 function has(array $data, $key, $sep = '.') {
     return _get_parent($data, $key, $sep, function(&$data, $key) {
         return array_key_exists($key, $data);
     });
+}
+
+function hasIn(array $data, array $key) {
+    foreach ($key as $part) {
+        if (!is_array($data) || !array_key_exists($part, $data)) {
+            return false;
+        }
+
+        $data = $data[$part];
+    }
+
+    return true;
 }
 
 
