@@ -84,8 +84,10 @@ namespace Krak\Arr;
 class Bag implements ArrayAccess {
     public function __construct(array $data = [])
     public function get($key, $else = null, $sep = '.')
+    public function getIn(array $key, $else = null)
     public function set($key, $value, $sep = '.')
     public function has($key, $sep = '.')
+    public function hasIn(array $key)
     public function del($key, $sep = '.')
     public function raw()
 }
